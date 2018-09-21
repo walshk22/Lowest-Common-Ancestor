@@ -1,0 +1,74 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Node {
+private:
+    int left;
+    int right;
+    int num;
+public:
+    Node(int x) { num = x;};
+    int getNum() { return num; };
+    int getLeft() { return left; };
+    int getRight() { return right; };
+};
+
+vector <int> createTree()
+{
+    vector<int> NodeTree = {0,1,2,3,4,5,6,7,8,9,10,11};
+    
+    return NodeTree;
+}
+
+int findLCA(vector<int> Tree, Node a, Node b)
+{
+    int LCA;
+    if(a.getNum()==b.getNum())
+    {
+        LCA= a.getNum();
+    }
+    
+    else if(a.getNum() != b.getNum())
+    {
+        int aPos, bPos;
+        for(int i =0; i<Tree.size(); i++)
+        {
+            
+            if(Tree[i] == a.getNum())
+            {
+                aPos = i;
+            }
+            
+            if(Tree[i] == b.getNum())
+            {
+                bPos =i;
+            }
+        }
+        
+        if (aPos > bPos)
+        {
+            LCA= Tree[aPos+1];
+        }
+        
+        else
+        {
+            LCA = Tree[bPos +1];
+        }
+        
+    }
+    
+    return LCA;
+}
+
+int main()
+{
+    Node a = Node(5);
+    Node b(8);
+    vector<int> Tree = createTree();
+    int LCA = findLCA(Tree, a, b);
+    
+    cout << "The LCA of " << a.getNum() << " and " << b.getNum() << " is " << LCA << endl;
+    
+    return 0;
+}
