@@ -25,7 +25,9 @@ int main()
     Node b(8);
     vector<int> Tree = createTree();
     
-    vector<bool> posError;
+    //IDEA: Create a vector of bools and then create a function so if the nodes are equal
+    // or the node isn't on the tree then it doesn't outprint a LCA
+    vector<bool> posError;                          //vector of bools for checkLCA values
     
     cout << "NODE TREE: ";
     //printing binary tree
@@ -73,10 +75,15 @@ int main()
     posError.push_back(checkingLCA2);
     cout << "NODE E = " << e.getNum() << endl;
     cout << "NODE F = " << f.getNum() << endl;
-    printLCA(LCA2, checkingLCA2 );
+    if(!checkingLCA2)                               //NO output should appear because 14 isn't on tree
+    {
+        printLCA(LCA2, checkingLCA2);
+    }
     cout << endl;
     
     //TEST: WHAT HAPPENS WHEN THE NODE IS THE SAME NODE
+    // THERE SHOULD BE NO LCA BECAUSE NODES ARE NOT REPEATED ON THE TREE
+    // IF ANY LCA SHOULD BE OUTPRINTED-- MUST BE NODE-1
     Node g = 4;
     Node h = 4;
     int LCA3 = findLCA(Tree, g, h);
@@ -84,7 +91,7 @@ int main()
     posError.push_back(checkingLCA3);
     cout << "NODE G = " << g.getNum() << endl;
     cout << "NODE F = " << f.getNum() << endl;
-    printLCA(LCA3, checkingLCA3);
+    printLCA(LCA3, checkingLCA3);                   //ERROR: PRINTING 4 not 3
     
     
     
@@ -103,7 +110,8 @@ int findLCA(vector<int> Tree, Node a, Node b)
     int LCA;
     bool AonTree = false;
     bool BonTree = false;
-    
+    int aPosition=0, bPosition=0;
+
     
     //EDITTED-- Checking for validity of nodes being checked
     for(int i = 0; i<Tree.size(); i++)
@@ -124,7 +132,6 @@ int findLCA(vector<int> Tree, Node a, Node b)
     {
         
         cout << "ERROR: THE NODE REQUESTED IS NOT ON THE TREE :: NODE "<< a.getNum() << endl;
-        return 0;
     }
     
     if(!BonTree)
@@ -132,14 +139,9 @@ int findLCA(vector<int> Tree, Node a, Node b)
         cout << "ERROR: THE NODE REQUEST IS NOT ON THE TREE :: NODE " << b.getNum() << endl;
     }
     
-    if(a.getNum()==b.getNum())
-    {
-        LCA= a.getNum();
-    }
     
     else
     {
-        int aPosition, bPosition;
         for(int i =0; i<Tree.size(); i++)
         {
             
@@ -160,11 +162,11 @@ int findLCA(vector<int> Tree, Node a, Node b)
         }
         
         //DEBUGGING
-        cout << "CODE REACHED HERE" << endl;
-         if(aPosition == bPosition)
+        //cout << "CODE REACHED HERE" << endl;
+          if(aPosition == bPosition)
         {
             cout << "The nodes are the same." << endl;
-            LCA = Tree[aPosition-1];
+            LCA = 0;
         }
         
         else
