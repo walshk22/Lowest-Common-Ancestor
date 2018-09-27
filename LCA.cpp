@@ -16,18 +16,26 @@ vector <int> createTree();
 int findLCA(vector<int> Tree, Node a, Node b);
 //Check LCA to see if it equals 0; if so the LCA has an error and nothing should be outprinted
 bool checkLCA(int LCA);
-void printLCA(int LCA, bool check);
+//void printLCA(int LCA, bool check);
+void printLCA(vector<Node> x, vector<bool> check, vector<int> LCA);
 
 int main()
 {
 
-    Node a = Node(5);
-    Node b(8);
+    vector<Node> nodes;
+    vector<int> LCAs;
     vector<int> Tree = createTree();
-    
+   
     //IDEA: Create a vector of bools and then create a function so if the nodes are equal
     // or the node isn't on the tree then it doesn't outprint a LCA
     vector<bool> posError;                          //vector of bools for checkLCA values
+
+    
+    Node a = Node(5);
+    nodes.push_back(a);
+    Node b(8);
+    nodes.push_back(b);
+   
     
     cout << "NODE TREE: ";
     //printing binary tree
@@ -46,54 +54,68 @@ int main()
     }
     
     int LCA = findLCA(Tree, a, b);
+    LCAs.push_back(LCA);
     bool checkingLCA = checkLCA(LCA);
     posError.push_back(checkingLCA);
     
-    cout << "NODE A = " << a.getNum() << endl;
-    cout << "NODE B = " << b.getNum() << endl;
-    printLCA(LCA, checkingLCA);
+    //cout << "NODE A = " << a.getNum() << endl;
+    //cout << "NODE B = " << b.getNum() << endl;
+    //printLCA(LCA, checkingLCA);
     cout << endl;
     
     Node c = Node(10);
+    nodes.push_back(c);
     Node d = Node(11);
+    nodes.push_back(d);
     
     int LCA1 = findLCA(Tree, c, d);
+    LCAs.push_back(LCA1);
     bool checkingLCA1 = checkLCA(LCA1);
     posError.push_back(checkingLCA1);
     
-    cout << "NODE C = " << c.getNum() << endl;
-    cout << "NODE D = " << d.getNum() << endl;
-    printLCA(LCA1, checkingLCA1);
+    //cout << "NODE C = " << c.getNum() << endl;
+    //cout << "NODE D = " << d.getNum() << endl;
+    //printLCA(LCA1, checkingLCA1);
     cout << endl;
 
     Node e = Node(14);
+    nodes.push_back(e);
     Node f= Node(4);
+    nodes.push_back(f);
     
     //EDIT ME: LCA is correct but there should be an error because 14 is not on the NODE Tree
     int LCA2 = findLCA(Tree, e, f);
+    LCAs.push_back(LCA2);
     bool checkingLCA2 = checkLCA(LCA2);
     posError.push_back(checkingLCA2);
-    cout << "NODE E = " << e.getNum() << endl;
-    cout << "NODE F = " << f.getNum() << endl;
+    
+    //cout << "NODE E = " << e.getNum() << endl;
+    //cout << "NODE F = " << f.getNum() << endl;
+   
+    /*
     if(!checkingLCA2)                               //NO output should appear because 14 isn't on tree
     {
         printLCA(LCA2, checkingLCA2);
     }
-    cout << endl;
+    cout << endl; */
     
     //TEST: WHAT HAPPENS WHEN THE NODE IS THE SAME NODE
     // THERE SHOULD BE NO LCA BECAUSE NODES ARE NOT REPEATED ON THE TREE
     // IF ANY LCA SHOULD BE OUTPRINTED-- MUST BE NODE-1
     Node g = 4;
+    nodes.push_back(g);
     Node h = 4;
+    nodes.push_back(h);
     int LCA3 = findLCA(Tree, g, h);
+    LCAs.push_back(LCA3);
     bool checkingLCA3 = checkLCA(LCA3);
     posError.push_back(checkingLCA3);
-    cout << "NODE G = " << g.getNum() << endl;
-    cout << "NODE F = " << f.getNum() << endl;
-    printLCA(LCA3, checkingLCA3);                   //ERROR: PRINTING 4 not 3
+    //cout << "NODE G = " << g.getNum() << endl;
+    //cout << "NODE F = " << f.getNum() << endl;
+    //printLCA(LCA3, checkingLCA3);                   //ERROR: PRINTING 4 not 3
     
-    
+    //TESTING NEW PRINT FUNCTION
+    printLCA(nodes, posError,LCAs);
     
     return 0;
 }
@@ -190,7 +212,7 @@ bool checkLCA(int LCA)
         return true;
     }
 }
-
+/*  PRINT FUNCTION 1
 void printLCA(int LCA, bool check)
 {
     if(check)
@@ -202,5 +224,41 @@ void printLCA(int LCA, bool check)
     {
         cout <<  endl;
     }
+} */
+
+void printLCA(vector<Node> x, vector<bool> check, vector<int> LCA)
+{
+    for(int nod = 0; nod<check.size(); nod+2)
+    {
+        if(nod ==0)
+        {
+            cout << "NODE 1: " << x[nod].getNum() << endl;
+            cout << "NODE 2: " << x[nod+1].getNum() << endl;
+        
+            if(check[nod])
+            {
+                cout << "LCA = " << LCA[nod] << endl;
+            }
+        }
+        
+        else
+        {
+            cout << "NODE 1: " << x[nod].getNum() << endl;
+            cout << "NODE 2: " << x[nod+1].getNum() << endl;
+            
+            if(check[nod-1])
+            {
+                cout << "LCA = " << LCA[nod-1]  << endl;
+            }
+        }
+        
+    }
 }
+
+
+
+
+
+
+
 
