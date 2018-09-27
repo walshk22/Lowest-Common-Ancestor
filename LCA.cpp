@@ -99,9 +99,6 @@ int main()
     }
     cout << endl; */
     
-    //TEST: WHAT HAPPENS WHEN THE NODE IS THE SAME NODE
-    // THERE SHOULD BE NO LCA BECAUSE NODES ARE NOT REPEATED ON THE TREE
-    // IF ANY LCA SHOULD BE OUTPRINTED-- MUST BE NODE-1
     Node g = 4;
     nodes.push_back(g);
     Node h = 4;
@@ -114,15 +111,34 @@ int main()
     //cout << "NODE F = " << f.getNum() << endl;
     //printLCA(LCA3, checkingLCA3);                   //ERROR: PRINTING 4 not 3
     
-    //TESTING NEW PRINT FUNCTION
-    printLCA(nodes, posError,LCAs);
+    int nodCount = 0;
+    for(int i=0; i<LCAs.size(); i++)
+    {
+        cout << "NODE 1: " << nodes[nodCount].getNum() << endl;
+        nodCount++;
+        
+        cout << "NODE 2: " << nodes[nodCount].getNum() << endl;
+        nodCount++;
+        
+        if(posError[i])
+        {
+            cout << "LCA: " << LCAs[i] << endl;
+         }
+        
+        else
+        {
+            cout << "ERROR: NO LCA" << endl;
+        }
+        
+        cout << endl;
+    }
     
     return 0;
 }
 
 vector <int> createTree()
 {
-    vector<int> NodeTree = {1,2,3,4,5,6,7,8,9,10,11, 12};
+    vector<int> NodeTree = {1,2,3,4,5,6,7,8,9,10,11,12};
     
     return NodeTree;
 }
@@ -147,18 +163,17 @@ int findLCA(vector<int> Tree, Node a, Node b)
         {
             BonTree = true;
         }
-        
     }
     
     if( AonTree == false)
     {
         
-        cout << "ERROR: THE NODE REQUESTED IS NOT ON THE TREE :: NODE "<< a.getNum() << endl;
+        LCA = 0;
     }
     
     if(!BonTree)
     {
-        cout << "ERROR: THE NODE REQUEST IS NOT ON THE TREE :: NODE " << b.getNum() << endl;
+        LCA = 0;
     }
     
     
@@ -166,7 +181,6 @@ int findLCA(vector<int> Tree, Node a, Node b)
     {
         for(int i =0; i<Tree.size(); i++)
         {
-            
             if(Tree[i] == a.getNum())
             {
                 aPosition = i;
@@ -180,20 +194,19 @@ int findLCA(vector<int> Tree, Node a, Node b)
         
         if (aPosition < bPosition)
         {
-            LCA= Tree[aPosition-1];
+            LCA= Tree[bPosition-1];
         }
         
         //DEBUGGING
         //cout << "CODE REACHED HERE" << endl;
           if(aPosition == bPosition)
         {
-            cout << "The nodes are the same." << endl;
             LCA = 0;
         }
         
         else
         {
-            LCA = Tree[bPosition - 1];
+            LCA = Tree[aPosition - 1];
         }
     }
     
@@ -212,7 +225,7 @@ bool checkLCA(int LCA)
         return true;
     }
 }
-/*  PRINT FUNCTION 1
+//  PRINT FUNCTION 1
 void printLCA(int LCA, bool check)
 {
     if(check)
@@ -224,14 +237,17 @@ void printLCA(int LCA, bool check)
     {
         cout <<  endl;
     }
-} */
+}
 
+// TEST PRINT FUNC 2---- FAIL
+/*
 void printLCA(vector<Node> x, vector<bool> check, vector<int> LCA)
 {
-    for(int nod = 0; nod<check.size(); nod+2)
+    for(int nod = 0; nod<x.size(); nod++)
     {
-        if(nod ==0)
+        if(nod == 0)
         {
+        
             cout << "NODE 1: " << x[nod].getNum() << endl;
             cout << "NODE 2: " << x[nod+1].getNum() << endl;
         
@@ -241,19 +257,18 @@ void printLCA(vector<Node> x, vector<bool> check, vector<int> LCA)
             }
         }
         
-        else
-        {
+        else {
             cout << "NODE 1: " << x[nod].getNum() << endl;
             cout << "NODE 2: " << x[nod+1].getNum() << endl;
             
             if(check[nod-1])
             {
-                cout << "LCA = " << LCA[nod-1]  << endl;
+                cout << "LCA = " << LCA[nod-1];
             }
         }
         
     }
-}
+} */
 
 
 
