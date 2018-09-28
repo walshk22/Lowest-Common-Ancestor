@@ -111,6 +111,24 @@ int main()
     //cout << "NODE F = " << f.getNum() << endl;
     //printLCA(LCA3, checkingLCA3);                   //ERROR: PRINTING 4 not 3
     
+    Node i = 9;
+    nodes.push_back(i);
+    Node j = 4;
+    nodes.push_back(j);
+    int LCA4 = findLCA(Tree, i, j);
+    LCAs.push_back(LCA4);
+    bool checkingLCA4 = checkLCA(LCA4);
+    posError.push_back(checkingLCA4);
+    
+    Node x = 10;
+    Node y = 6;
+    nodes.push_back(x);
+    nodes.push_back(y);
+    int LCA5 = findLCA(Tree, x, y);
+    LCAs.push_back(LCA5);
+    bool checkingLCA5 = checkLCA(LCA5);
+    posError.push_back(checkingLCA5);
+    
     int nodCount = 0;
     for(int i=0; i<LCAs.size(); i++)
     {
@@ -194,19 +212,19 @@ int findLCA(vector<int> Tree, Node a, Node b)
         
         if (aPosition < bPosition)
         {
-            LCA= Tree[bPosition-1];
+            LCA= Tree[aPosition-1];
         }
         
         //DEBUGGING
         //cout << "CODE REACHED HERE" << endl;
-          if(aPosition == bPosition)
+         else if(aPosition == bPosition)
         {
             LCA = 0;
         }
         
         else
         {
-            LCA = Tree[aPosition - 1];
+            LCA = Tree[bPosition - 1];
         }
     }
     
