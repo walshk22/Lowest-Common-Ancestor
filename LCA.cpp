@@ -129,6 +129,16 @@ int main()
     bool checkingLCA5 = checkLCA(LCA5);
     posError.push_back(checkingLCA5);
     
+    Node s = 19;
+    Node t = 20;
+    nodes.push_back(s);
+    nodes.push_back(t);
+    int LCA6 = findLCA(Tree, s, t);
+    LCAs.push_back(LCA6);
+    bool checkingLCA6 = checkLCA(LCA6);
+    posError.push_back(checkingLCA6);
+    
+    
     int nodCount = 0;
     for(int i=0; i<LCAs.size(); i++)
     {
@@ -183,17 +193,11 @@ int findLCA(vector<int> Tree, Node a, Node b)
         }
     }
     
-    if( AonTree == false)
+    if( AonTree == false || BonTree == false)
     {
         
         LCA = 0;
     }
-    
-    if(!BonTree)
-    {
-        LCA = 0;
-    }
-    
     
     else
     {
