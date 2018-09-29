@@ -24,8 +24,14 @@ int main ()
     int LCA1 = findLCA(2,3);                        //LCA = 1
     cout << "THE LCA(2,3) IS: " << LCA1 << endl;
     
-    int LCA2 = findLCA(6,7);                        //LCA =3
-    cout << "THE LCA(6,7) IS: " << LCA2 << endl;
+    int LCA2 = findLCA(7, 6);                        //LCA =3
+    cout << "THE LCA(7,6) IS: " << LCA2 << endl;
+    
+    int LCA3 = findLCA(2,6);                        // LCA =1
+    cout << "THE LCA(2,6) IS: " << LCA3 << endl;
+    
+    int LCA4 = findLCA(4, 7);                       //LCA = 1
+    cout << "THE LCA(4,7) IS: " << LCA4 << endl;
     
     
     return 0;
@@ -79,12 +85,12 @@ int findLCA( int a, int b)
             int LCAPosition=0;
             if( aPos >bPos)
             {
-                LCAPosition = (aPos-bPos/2);
+                LCAPosition = (aPos-1);
                 LCA = nodeTree[LCAPosition];
             }
             else if(bPos>aPos)
             {
-                LCAPosition = (bPos-aPos)/2;
+                LCAPosition = (bPos-1);
                 LCA = nodeTree[LCAPosition];
             }
             
