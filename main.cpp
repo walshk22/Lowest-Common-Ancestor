@@ -1,100 +1,115 @@
 //
-//  Double_Branch_LCA.cpp
-//  Lowest Common Ancestor
+//  main.cpp
+//  DAG LCA Tree
 //
-//  Created by Kaitlyn Walsh on 9/29/18.
+//  Created by Kaitlyn Walsh on 10/3/18.
 //  Copyright © 2018 Kaitlyn Walsh. All rights reserved.
 //
 
 #include <iostream>
+#include "NODE.h"
 #include <vector>
 using namespace std;
 
-vector <int> nodeTree = { 1, 2, 4, 2, 5, 2, 1, 3, 6, 3, 7, 3, 1};
-vector<int> treeDepth = {0, 1, 2, 1, 2, 1, 0, 1, 2, 1, 2, 1, 0};
+void createDAGTree(vector<NODE> treeList);
+int findLCA(vector<NODE> treeList, NODE x, NODE y);
 
-int findLCA ( int a, int b);
 
-int main ()
-{
+int main() {
+    vector<NODE> nodeList;
+    NODE a(1);
+    NODE b(2);
+    NODE c(3);
+    NODE d(4);
+    NODE e(5);
+    NODE f(6);
+    NODE g(7);
     
-    int LCA = findLCA( 4,5);                    //LCA = 2
-    cout << "THE LCA(4,5) IS: " << LCA << endl;
+    nodeList.push_back(a);
+    nodeList.push_back(b);
+    nodeList.push_back(c);
+    nodeList.push_back(d);
+    nodeList.push_back(e);
+    nodeList.push_back(f);
+    nodeList.push_back(g);
     
-    int LCA1 = findLCA(2,3);                        //LCA = 1
-    cout << "THE LCA(2,3) IS: " << LCA1 << endl;
+    createDAGTree(nodeList);
+    cout << endl << endl;
     
-    int LCA2 = findLCA(6,7);                        //LCA =3
-    cout << "THE LCA(6,7) IS: " << LCA2 << endl;
+    
+    int LCA1 = findLCA(nodeList, 7,3);
+    int LCA2 = findLCA(nodeList, 4,7);
+    int LCA3 = findLCA(nodeList, 3,6);
+    
+    cout << "LCA(7,3) : " << LCA1 << endl;
+    cout << "LCA(4,7) : " << LCA2 << endl;
+    cout << "LCA(3,6) : " << LCA3 << endl;
     
     
     return 0;
 }
 
-
-int findLCA( int a, int b)
+void createDAGTree(vector<NODE> treeList)
 {
-    int aDepth, bDepth, LCA=0;
+    float size = treeList.size();
+    //NODE 7
+    treeList[size-1].setEdgeRight(4);
+    treeList[size-1].setEdgeLeft(6);
     
-    //Finding depth of the
-    for(int i =0; i<13; i++)
+    //NODE 6
+    treeList[size-2].setEdgeLeft(3);
+    treeList[size-2].setEdgeRight(7);
+    
+    //NODE 5
+    treeList[size-3].setEdgeRight(3);
+    treeList[size-3].setEdgeLeft(0);
+    
+    //NODE 4
+    treeList[size-4].setEdgeLeft(7);
+    treeList[size-4].setEdgeRight(2);
+    
+    //NODE 3
+    treeList[size-5].setEdgeRight(1);
+    treeList[size-5].setEdgeLeft(5);
+    
+    //NODE 2
+    treeList[1].setEdgeRight(1);
+    treeList[1].setEdgeLeft(4);
+    
+    //NODE 1
+    treeList[0].setEdgeRight(0);
+    treeList[0].setEdgeLeft(0);
+    
+    
+    //DRAWING TREE
+    cout << "\t <--- 2 \t <--- 4 \t <---" << endl;
+    cout << "1 \t\t\t\t\t\t\t\t   7" << endl;
+    cout << "\t <--- 3 \t <--- 6 \t <---" << endl;
+    cout << "\t\t  ^--- 5" << endl;
+    
+}
+
+int findLCA(vector<NODE> treeList, NODE x, NODE y)
+{
+    int LCA = 0;
+    
+    for(int i =0; i<treeList.size(); i++)
     {
-        if(nodeTree[i] == a)
+        if(x.getNum() == y.getEdgeLeft())
         {
-            aDepth = treeDepth[i];
+            LCA = x.getEdgeRight();
         }
         
-        if(nodeTree[i] == b)
+        else if(x.getNum() == y.getEdgeRight())
         {
-            bDepth = treeDepth[i];
+            LCA = y.getEdgeLeft();
         }
-    }
-    
-    if(aDepth == 1 && bDepth ==1)
-    {
-        LCA = 1;
-    }
-    
-    else if((aDepth == 1 && bDepth == 2) || (bDepth ==1 && aDepth == 2) )
-    {
-        LCA = 1;
-    }
-    
-    else{
-        int aPos, bPos;                               // place holders for nodes a and b
         
-        for(int i =0; i< 13; i++)
+        else if(x.getNum() == y.getNum())
         {
-            if(nodeTree[i] == a)
-            {
-                aPos = i;
-            }
-            
-            if(nodeTree[i]== b)
-            {
-                bPos = i;
-            }
+            LCA = 0;
         }
-            
-            int LCAPosition=0;
-            if( aPos >bPos)
-            {
-                LCAPosition = (aPos-bPos/2);
-                LCA = nodeTree[LCAPosition];
-            }
-            else if(bPos>aPos)
-            {
-                LCAPosition = (bPos-aPos)/2;
-                LCA = nodeTree[LCAPosition];
-            }
-            
-            else{
-                LCA = 0;
-            }
-            
-        
     }
     
     return LCA;
 }
-
