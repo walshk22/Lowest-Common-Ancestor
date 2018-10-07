@@ -17,6 +17,7 @@ private:
     int edgeLeft;
     int edgeRight;
     int num;
+    int side;               //0 for tips, 1 for left, 2 for right, 3 for branch of left
 public:
     NODE(int);
     void setEdgeLeft(int);
@@ -24,7 +25,8 @@ public:
     int getNum();
     int getEdgeRight();
     int getEdgeLeft();
-    //vector<NODE> nodeList();
+    void setSide(int);
+    int getSide();
 };
 
 #endif /* NODE_hpp */

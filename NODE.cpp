@@ -39,11 +39,17 @@ int NODE :: getEdgeRight()
     return edgeRight;
 }
 
-/*
-vector<NODE> NODE:: nodeList()
+void NODE:: setSide(int x)
 {
-    // ADD THIS IN AFTER BASIC TESTING
-} */
+    side = x;
+}
+
+int NODE:: getSide()
+{
+    return side;
+}
+
+
 
 
 

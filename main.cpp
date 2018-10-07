@@ -37,14 +37,15 @@ int main() {
     cout << endl << endl;
     
     
-    int LCA1 = findLCA(nodeList, 7,3);
-    int LCA2 = findLCA(nodeList, 4,7);
-    int LCA3 = findLCA(nodeList, 3,6);
+    int LCA1 = findLCA(nodeList, 7,3);              //LCA = 1
+    int LCA2 = findLCA(nodeList, 4,7);              //LCA = 2
+    int LCA3 = findLCA(nodeList, 3,6);              //LCA = 1
+    int LCA4 = findLCA(nodeList, 5, 6);             //LCA = 3
     
     cout << "LCA(7,3) : " << LCA1 << endl;
     cout << "LCA(4,7) : " << LCA2 << endl;
     cout << "LCA(3,6) : " << LCA3 << endl;
-    
+    cout << "LCA(5,6) : " << LCA4 << endl;
     
     return 0;
 }
@@ -55,30 +56,37 @@ void createDAGTree(vector<NODE> treeList)
     //NODE 7
     treeList[size-1].setEdgeRight(4);
     treeList[size-1].setEdgeLeft(6);
+    treeList[size-1].setSide(0);
     
     //NODE 6
     treeList[size-2].setEdgeLeft(3);
     treeList[size-2].setEdgeRight(7);
+    treeList[size-2].setSide(1);
     
     //NODE 5
     treeList[size-3].setEdgeRight(3);
     treeList[size-3].setEdgeLeft(0);
+    treeList[size-3].setSide(3);
     
     //NODE 4
     treeList[size-4].setEdgeLeft(7);
     treeList[size-4].setEdgeRight(2);
+    treeList[size-4].setSide(2);
     
     //NODE 3
     treeList[size-5].setEdgeRight(1);
     treeList[size-5].setEdgeLeft(5);
+    treeList[size-5].setSide(1);
     
     //NODE 2
     treeList[1].setEdgeRight(1);
     treeList[1].setEdgeLeft(4);
+    treeList[1].setSide(1);
     
     //NODE 1
     treeList[0].setEdgeRight(0);
     treeList[0].setEdgeLeft(0);
+    treeList[0].setSide(0);
     
     
     //DRAWING TREE
@@ -92,22 +100,72 @@ void createDAGTree(vector<NODE> treeList)
 int findLCA(vector<NODE> treeList, NODE x, NODE y)
 {
     int LCA = 0;
+    bool xGreater = false;                      //Assume y is the greater number
     
-    for(int i =0; i<treeList.size(); i++)
+    if(x.getNum() == y.getNum())
     {
-        if(x.getNum() == y.getEdgeLeft())
+        LCA = 0;
+    }
+    
+    else
+    {
+        if(x.getNum() > y.getNum())
         {
-            LCA = x.getEdgeRight();
+            xGreater = true;
         }
         
-        else if(x.getNum() == y.getEdgeRight())
+        if(xGreater && (y.getSide()==x.getSide()))
         {
             LCA = y.getEdgeLeft();
         }
         
-        else if(x.getNum() == y.getNum())
+        else if(xGreater && (y.getSide() != x.getSide()) )
         {
-            LCA = 0;
+            if(y.getSide() > x.getSide())
+            {
+                if(y.getSide() == 3 && x.getSide() == 2)
+                {
+                    LCA = treeList[0].getNum();
+                }
+                
+                else if(y.getSide() == 3 && x.getSide() == 1)
+                {
+                    if(y.getEdgeRight() == x.getNum())
+                    {
+                        LCA =1;
+                    }
+                    else
+                    {
+                        LCA = 3;
+                    }
+                }
+
+            }
+            
+            else
+            {
+                if(y.getSide() < x.getSide())
+                {
+                    if(y.getSide() == 2 && x.getSide() == 3)
+                    {
+                        LCA = treeList[0].getNum();
+                    }
+                    
+                    else if(y.getSide() == 1 && x.getSide() == 3)
+                    {
+                        if(x.getNum() == y.getEdgeRight())
+                        {
+                            LCA = 1;
+                        }
+                        
+                        else
+                        {
+                            LCA = 3;
+                        }
+                    }
+                }
+            }
+                    
         }
     }
     
