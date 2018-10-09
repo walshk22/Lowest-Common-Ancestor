@@ -42,7 +42,7 @@ int main() {
     int LCA3 = findLCA(nodeList, 3,6);              //LCA = 1
     int LCA4 = findLCA(nodeList, 5, 6);             //LCA = 3
     
-    cout << "LCA(7,3) : " << LCA1 << endl;
+    cout << "LCA(7,3) : " << LCA1 << endl;          //Resulting in 10...
     cout << "LCA(4,7) : " << LCA2 << endl;
     cout << "LCA(3,6) : " << LCA3 << endl;
     cout << "LCA(5,6) : " << LCA4 << endl;
@@ -56,37 +56,37 @@ void createDAGTree(vector<NODE> treeList)
     //NODE 7
     treeList[size-1].setEdgeRight(4);
     treeList[size-1].setEdgeLeft(6);
-    treeList[size-1].setSide(0);
+    treeList[size-1].setRow(0);
     
     //NODE 6
     treeList[size-2].setEdgeLeft(3);
     treeList[size-2].setEdgeRight(7);
-    treeList[size-2].setSide(1);
+    treeList[size-2].setRow(1);
     
     //NODE 5
     treeList[size-3].setEdgeRight(3);
     treeList[size-3].setEdgeLeft(0);
-    treeList[size-3].setSide(3);
+    treeList[size-3].setRow(3);
     
     //NODE 4
     treeList[size-4].setEdgeLeft(7);
     treeList[size-4].setEdgeRight(2);
-    treeList[size-4].setSide(2);
+    treeList[size-4].setRow(2);
     
     //NODE 3
     treeList[size-5].setEdgeRight(1);
     treeList[size-5].setEdgeLeft(5);
-    treeList[size-5].setSide(1);
+    treeList[size-5].setRow(1);
     
     //NODE 2
     treeList[1].setEdgeRight(1);
     treeList[1].setEdgeLeft(4);
-    treeList[1].setSide(1);
+    treeList[1].setRow(1);
     
     //NODE 1
     treeList[0].setEdgeRight(0);
     treeList[0].setEdgeLeft(0);
-    treeList[0].setSide(0);
+    treeList[0].setRow(0);
     
     
     //DRAWING TREE
@@ -99,7 +99,7 @@ void createDAGTree(vector<NODE> treeList)
 
 int findLCA(vector<NODE> treeList, NODE x, NODE y)
 {
-    int LCA = 0;
+    int LCA;
     bool xGreater = false;                      //Assume y is the greater number
     
     if(x.getNum() == y.getNum())
@@ -109,26 +109,29 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
     
     else
     {
+        //Checking to see which number is greater--- larger numbers are at bottom of DAG tree
         if(x.getNum() > y.getNum())
         {
+            cout << "MADE IT HERE 1" << endl;         //Testing Only
             xGreater = true;
         }
         
-        if(xGreater && (y.getSide()==x.getSide()))
+        if(xGreater && (y.getRow()==x.getRow()))
         {
             LCA = y.getEdgeLeft();
         }
         
-        else if(xGreater && (y.getSide() != x.getSide()) )
+        else if(xGreater && (y.getRow() != x.getRow()) )
         {
-            if(y.getSide() > x.getSide())
+            cout << "MADE IT HERE" << endl;                         // for testing only
+            if(y.getRow() > x.getRow())
             {
-                if(y.getSide() == 3 && x.getSide() == 2)
+                if(y.getRow() == 3 && x.getRow() == 2)
                 {
                     LCA = treeList[0].getNum();
                 }
                 
-                else if(y.getSide() == 3 && x.getSide() == 1)
+                else if(y.getRow() == 3 && x.getRow() == 1)
                 {
                     if(y.getEdgeRight() == x.getNum())
                     {
@@ -139,19 +142,23 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
                         LCA = 3;
                     }
                 }
-
+                
+                else
+                {
+                    LCA = 1;
+                }
             }
             
             else
             {
-                if(y.getSide() < x.getSide())
+                if(y.getRow() < x.getRow())
                 {
-                    if(y.getSide() == 2 && x.getSide() == 3)
+                    if(y.getRow() == 2 && x.getRow() == 3)
                     {
                         LCA = treeList[0].getNum();
                     }
                     
-                    else if(y.getSide() == 1 && x.getSide() == 3)
+                    else if(y.getRow() == 1 && x.getRow() == 3)
                     {
                         if(x.getNum() == y.getEdgeRight())
                         {
@@ -165,8 +172,18 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
                     }
                 }
             }
-                    
         }
+        
+        else                                //xGreater is false
+        {
+            if(y.getRow() != x.getRow())
+            {
+                
+            }
+            
+            LCA = 1;
+        }
+        
     }
     
     return LCA;
