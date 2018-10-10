@@ -102,6 +102,20 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
     int LCA;
     bool xGreater = false;                      //Assume y is the greater number
     
+    //Checking to see which number is greater--- larger numbers are at bottom of DAG tree
+    if(x.getNum() > y.getNum())
+    {
+        //cout << "MADE IT HERE 1" << endl;         //Testing Only
+        xGreater = true;
+    }
+    
+    bool xGreaterRow = false;
+
+    if(x.getRow() > y.getRow())
+    {
+        xGreaterRow = true;
+    }
+    
     if(x.getNum() == y.getNum())
     {
         LCA = 0;
@@ -109,13 +123,8 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
     
     else
     {
-        //Checking to see which number is greater--- larger numbers are at bottom of DAG tree
-        if(x.getNum() > y.getNum())
-        {
-            cout << "MADE IT HERE 1" << endl;         //Testing Only
-            xGreater = true;
-        }
-        
+        cout << "X is not equal to Y" << endl;
+    //Series of if else statements to cover all possibilities
         if(xGreater && (y.getRow()==x.getRow()))
         {
             LCA = y.getEdgeLeft();
@@ -148,42 +157,69 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
                     LCA = 1;
                 }
             }
+        }
+        
+        if(y.getRow() < x.getRow())
+        {
+            if(y.getRow() == 2 && x.getRow() == 3)
+            {
+                LCA = 1;                                //converge at top of tree
+            }
+                    
+            else if(y.getRow() == 1 && x.getRow() == 3)
+            {
+                if(x.getNum() == y.getEdgeRight())
+                {
+                    LCA = 1;
+                }
+                        
+                else
+                {
+                    LCA = 3;
+                }
+              }
+            
+            else if(y.getRow() == 1 && x.getRow()==2)
+            {
+                LCA = 1;
+            }
             
             else
             {
-                if(y.getRow() < x.getRow())
-                {
-                    if(y.getRow() == 2 && x.getRow() == 3)
-                    {
-                        LCA = treeList[0].getNum();
-                    }
-                    
-                    else if(y.getRow() == 1 && x.getRow() == 3)
-                    {
-                        if(x.getNum() == y.getEdgeRight())
-                        {
-                            LCA = 1;
-                        }
-                        
-                        else
-                        {
-                            LCA = 3;
-                        }
-                    }
-                }
-            }
-        }
-        
-        else                                //xGreater is false
-        {
-            if(y.getRow() != x.getRow())
-            {
-                
+                LCA = 0;                //ERROR IF NO LCA FOUND
             }
             
-            LCA = 1;
         }
         
+    else  {                              //xGreater is false, x is on the before y on tree
+            cout << "IN ELSE STATMENT-- yGreater" << endl;
+            if(y.getRow() != x.getRow())
+            {
+                if(y.getRow() == 3 && x.getRow() == 2)
+                {
+                    cout << "ROWS:" << y.getRow() << " " << x.getRow() << endl;         //testing
+                    LCA =1;
+                }
+                
+                else if(y.getRow() == 3 && x.getRow() == 1)
+                {
+                    LCA = x.getEdgeRight();
+                }
+                
+                else if(x.getRow() ==0  || y.getRow() == 0)
+                {
+                    cout << "ROWS:" << y.getRow() << " " << x.getRow() << endl;         //testing
+
+                    LCA = 0;
+                }
+            }
+        
+            else
+            {
+                LCA = y.getEdgeRight();
+            }
+        
+        }
     }
     
     return LCA;
