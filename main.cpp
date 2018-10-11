@@ -38,14 +38,14 @@ int main() {
     
     
     int LCA1 = findLCA(nodeList, 7,3);              //LCA = 1
-    int LCA2 = findLCA(nodeList, 4,7);              //LCA = 2
-    int LCA3 = findLCA(nodeList, 3,6);              //LCA = 1
-    int LCA4 = findLCA(nodeList, 5, 6);             //LCA = 3
+    int LCA2 = findLCA(nodeList, 7, 4);              //LCA = 2
+    int LCA3 = findLCA(nodeList,6, 3);              //LCA = 1
+    int LCA4 = findLCA(nodeList, 6, 5);             //LCA = 3
     
     cout << "LCA(7,3) : " << LCA1 << endl;          //Resulting in 10...
-    cout << "LCA(4,7) : " << LCA2 << endl;
-    cout << "LCA(3,6) : " << LCA3 << endl;
-    cout << "LCA(5,6) : " << LCA4 << endl;
+    cout << "LCA(7, 4) : " << LCA2 << endl;
+    cout << "LCA(6, 3) : " << LCA3 << endl;
+    cout << "LCA(6, 5) : " << LCA4 << endl;
     
     return 0;
 }
@@ -116,23 +116,25 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
         xGreaterRow = true;
     }
     
+    //CASE 1
     if(x.getNum() == y.getNum())
     {
         LCA = 0;
     }
-    
-    else
-    {
-        cout << "X is not equal to Y" << endl;
+    //CASE 2--
+    cout << "X is not equal to Y" << endl;
     //Series of if else statements to cover all possibilities
-        if(xGreater && (y.getRow()==x.getRow()))
+        //CASE 2.1
+       if(xGreater && (y.getRow()==x.getRow()))
         {
+            cout << "ROWS EQUAL" << endl;
             LCA = y.getEdgeLeft();
         }
-        
+        //CASE 2.2
         else if(xGreater && (y.getRow() != x.getRow()) )
-        {
+         {
             cout << "MADE IT HERE" << endl;                         // for testing only
+            //CASE 2.2.1
             if(y.getRow() > x.getRow())
             {
                 if(y.getRow() == 3 && x.getRow() == 2)
@@ -151,15 +153,14 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
                         LCA = 3;
                     }
                 }
-                
                 else
                 {
                     LCA = 1;
                 }
             }
         }
-        
-        if(y.getRow() < x.getRow())
+        //CASE 2.3
+        else if(y.getRow() < x.getRow())
         {
             if(y.getRow() == 2 && x.getRow() == 3)
             {
@@ -177,7 +178,7 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
                 {
                     LCA = 3;
                 }
-              }
+            }
             
             else if(y.getRow() == 1 && x.getRow()==2)
             {
@@ -190,7 +191,7 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
             }
             
         }
-        
+    /*
     else  {                              //xGreater is false, x is on the before y on tree
             cout << "IN ELSE STATMENT-- yGreater" << endl;
             if(y.getRow() != x.getRow())
@@ -220,7 +221,8 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
             }
         
         }
-    }
+    } */
+//}
     
     return LCA;
 }
