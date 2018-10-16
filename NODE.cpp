@@ -9,9 +9,11 @@
 #include "NODE.h"
 using namespace std;
 
-NODE :: NODE(int n)
+NODE :: NODE(int n, int left, int right)
 {
     num = n;
+    edgeLeft = left;
+    edgeRight = right;
 }
 
 void NODE:: setEdgeLeft(int left)
@@ -39,14 +41,14 @@ int NODE :: getEdgeRight()
     return edgeRight;
 }
 
-void NODE:: setSide(int x)
+void NODE:: setRow(int x)
 {
-    side = x;
+    row = x;
 }
 
-int NODE:: getSide()
+int NODE:: getRow()
 {
-    return side;
+    return row;
 }
 
 
