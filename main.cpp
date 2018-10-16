@@ -43,7 +43,7 @@ int main() {
     cout << "NODE 2: " << b.getEdgeRight() << endl;
     cout <<  " NODE 7: " << g.getEdgeLeft() << endl;
     
-    
+    //XGREATER
     int LCA1 = findLCA(nodeList, g, c);              //LCA = 1
     int LCA2 = findLCA(nodeList, g, d);              //LCA = 2
     int LCA3 = findLCA(nodeList,f,c2);              //LCA = 1
@@ -56,6 +56,23 @@ int main() {
     cout << "LCA(6, 5) : " << LCA4 << endl;
     cout << "LCA(6, 4) :" << LCA5 << endl;
     
+    
+    
+    //TESTING !XGREATER
+    int lca1 = findLCA(nodeList, b, c);             // lca = 1
+    int lca2 = findLCA(nodeList, c2, f);            // lca = 1
+    int lca3 = findLCA(nodeList, b, g);             // lca = 1
+    int lca4 = findLCA(nodeList, b, f);             // lca =1
+    int lca5 = findLCA(nodeList, f, g);             //lca = 3
+    int lca6 = findLCA(nodeList, d,f);              //lca =1
+    
+    cout << endl << "LCAS FOR YGREATER" << endl;
+    cout << "LCA (2,3) :" << lca1 << endl;
+    cout << "LCA (3,6) :" << lca2 << endl;
+    cout << "LCA (2,7) :" << lca3 << endl;
+    cout << "LCA (2,6) :" << lca4 << endl;
+    cout << "LCA (6,7) :" << lca5 << endl;
+    cout << "LCA (4,6) :" << lca6 << endl;
     return 0;
 }
 
@@ -63,38 +80,24 @@ void createDAGTree(vector<NODE> treeList)
 {
     float size = treeList.size();
     //NODE 7
-    treeList[size-1].setEdgeRight(4);
-    treeList[size-1].setEdgeLeft(6);
     treeList[size-1].setRow(0);
     
     //NODE 6
-    treeList[size-2].setEdgeLeft(3);
-    treeList[size-2].setEdgeRight(7);
     treeList[size-2].setRow(1);
     
     //NODE 5
-    treeList[size-3].setEdgeRight(3);
-    treeList[size-3].setEdgeLeft(0);
     treeList[size-3].setRow(3);
     
     //NODE 4
-    treeList[size-4].setEdgeLeft(7);
-    treeList[size-4].setEdgeRight(2);
     treeList[size-4].setRow(2);
     
     //NODE 3
-    treeList[size-5].setEdgeRight(1);
-    treeList[size-5].setEdgeLeft(5);
     treeList[size-5].setRow(1);
     
     //NODE 2
-    treeList[1].setEdgeRight(1);
-    treeList[1].setEdgeLeft(4);
     treeList[1].setRow(1);
     
     //NODE 1
-    treeList[0].setEdgeRight(0);
-    treeList[0].setEdgeLeft(0);
     treeList[0].setRow(0);
     
     
@@ -126,17 +129,14 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
     //CASE 2--
     //Series of if else statements to cover all possibilities
         //CASE 2.1
-   //           TRYING A SWITCH STATEMENT
     if(xGreater && (y.getRow()==x.getRow()))
     {
-        cout << "ROWS EQUAL" << endl;
+//        cout << "ROWS EQUAL" << endl;
         LCA = y.getEdgeLeft();
-        cout << LCA;
     }
     //CASE 2.2
     else if(xGreater && (y.getRow() != x.getRow()) )
     {
-        cout << "MADE IT HERE" << endl;                         // for testing only
         //CASE 2.2.1
         if(y.getRow() > x.getRow())
         {
@@ -156,13 +156,14 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
                         LCA = 3;
                 }
             }
+            
             else
             {
                 LCA = 1;
             }
         }
     }
-/*
+
     //CASE 2.3
     else if(y.getRow() < x.getRow())
     {
@@ -185,6 +186,7 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
         {
             LCA = 1;
         }
+        
         else
         {
             LCA = 0;                //ERROR IF NO LCA FOUND
@@ -192,36 +194,41 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
     }
     
     else {
-        LCA = y.getEdgeLeft();
+        LCA = 1;
     }
     
-    if(!xGreater)  {                              //xGreater is false, x is on the before y on tree
-        cout << "IN ELSE STATMENT-- yGreater" << endl;
+    /*else {
+        LCA = y.getEdgeLeft();
+    } */
+ 
+    if(!xGreater)  {                         //xGreater is false, x is on the before y on tree
         if(y.getRow() != x.getRow())
         {
             if(y.getRow() == 3 && x.getRow() == 2)
             {
-                cout << "ROWS:" << y.getRow() << " " << x.getRow() << endl;         //testing
                 LCA =1;
             }
             else if(y.getRow() == 3 && x.getRow() == 1)
             {
-                LCA = x.getEdgeRight();
+                LCA = x.getEdgeLeft();
             }
             else if(x.getRow() ==0  || y.getRow() == 0)
             {
                 cout << "ROWS:" << y.getRow() << " " << x.getRow() << endl;         //testing
                 LCA = 0;
             }
+            else{
+                LCA = 1;
+            }
         }
+        
         else
         {
-            LCA = y.getEdgeRight();
+            LCA = x.getEdgeLeft();
         }
     }
     
-*/
-    
+
     
         
     return LCA;
