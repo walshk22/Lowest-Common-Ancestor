@@ -22,9 +22,11 @@ int main() {
     NODE c(3, 1, 5);
     NODE c2(3,1,6);
     NODE d(4, 2, 7);
-    NODE e(5,3,0);
+    NODE e(5,3,8);
+    NODE z(8, 5, 0);
     NODE f(6,3,7);
     NODE g(7,6,4);
+    
     
     
     nodeList.push_back(a);
@@ -34,14 +36,17 @@ int main() {
     nodeList.push_back(e);
     nodeList.push_back(f);
     nodeList.push_back(g);
+    nodeList.push_back(z);
+    
     
     createDAGTree(nodeList);
     cout << endl << endl;
     
+    /*
     //TESTING EDGES    ----- FAILED ALL EDGES 0---
     cout << "NODE 1: " <<a.getEdgeLeft() << endl;
     cout << "NODE 2: " << b.getEdgeRight() << endl;
-    cout <<  " NODE 7: " << g.getEdgeLeft() << endl;
+    cout <<  " NODE 7: " << g.getEdgeLeft() << endl; */
     
     //XGREATER
     int LCA1 = findLCA(nodeList, g, c);              //LCA = 1
@@ -73,6 +78,17 @@ int main() {
     cout << "LCA (2,6) :" << lca4 << endl;
     cout << "LCA (6,7) :" << lca5 << endl;
     cout << "LCA (4,6) :" << lca6 << endl;
+    
+    int lca7 = findLCA(nodeList, z, c);
+    int lca8 = findLCA(nodeList, d, z);
+    int lca9 = findLCA(nodeList, g, z);
+    int lca10 = findLCA(nodeList, z, e);
+    cout << "LCA (8,3) :" << lca7 << endl;              //lca = 1
+    cout << "LCA (4,8) :" << lca8 << endl;              //lca = 1
+    cout << "LCA (7,8) :" << lca9 << endl;              // lca =3
+    cout << "LCA (8,5) :" << lca10 << endl;             //lca = 3
+    
+    
     return 0;
 }
 
@@ -94,6 +110,8 @@ void createDAGTree(vector<NODE> treeList)
     //NODE 3
     treeList[size-5].setRow(1);
     
+    treeList[size-4].setRow(3);
+    
     //NODE 2
     treeList[1].setRow(1);
     
@@ -105,7 +123,7 @@ void createDAGTree(vector<NODE> treeList)
     cout << "\t <--- 2 \t <--- 4 \t <---" << endl;
     cout << "1 \t\t\t\t\t\t\t\t   7" << endl;
     cout << "\t <--- 3 \t <--- 6 \t <---" << endl;
-    cout << "\t\t  ^--- 5" << endl;
+    cout << "\t\t  ^--- 5 <---8" << endl;
     
 }
 
@@ -227,8 +245,6 @@ int findLCA(vector<NODE> treeList, NODE x, NODE y)
             LCA = x.getEdgeLeft();
         }
     }
-    
-
     
         
     return LCA;
